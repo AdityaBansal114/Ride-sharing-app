@@ -1,8 +1,7 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Navbar from './components/Navbar'; // Optional shared component
+import Navbar from './components/Navbar';
 import SearchPage from './pages/SearchPage';
 import LandingPage from './pages/LandingPage';
 import PublishPage from './pages/PublishPage';
