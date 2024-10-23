@@ -9,6 +9,14 @@ export const getValidTrips  = async (trip , source , destination) => {
 
     const numberOfPoints = 10;
 
+    if(trip.available_seats===trip.companions.length){
+        return false;
+    }
+
+    if(trip.status != "active"){
+        return false;
+    }
+
     const routePoints = await getRoute(trip.source, trip.destination, numberOfPoints);
 
 
