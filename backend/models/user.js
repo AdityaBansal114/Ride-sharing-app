@@ -16,6 +16,10 @@ const userSchema= new mongoose.Schema({
         required: true,
         minlength: 6
     },
+    phone_number: {
+        type: Number,
+        trim: true,
+    },
 
     gender:{
         type: String,
@@ -26,11 +30,18 @@ const userSchema= new mongoose.Schema({
     role: {
         type : String,
         required: true,
-        enum :["student" , "instructor" , "admin"],
-        default: "student"
-    }
+        enum :["traveller" , "companion" , "admin"],
+        default: "traveller"
+    },
+    trips: {
+        type: Array,
+        default: []
+    },
+    active_trip: {
+        type: mongoose.ObjectId,
+    },
     
-})
+}, {timestamps: true})
 
 const User= mongoose.model("User",userSchema);
 
