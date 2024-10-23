@@ -30,24 +30,28 @@ const userSchema= new mongoose.Schema({
         type : String,
         required : true
     },
-    driver_name : {
+    driver_name : { 
         type : String,
         required : true
     },
     driver_phone : {
-        type : string,
+        type : String,
     },
     ride_status  : {
         type : String,
         enum: ["active" , "unactive" , "completed"],
         default : "active"
+    },
+    price : {
+        type : Number,
+        required : true
     }
     
 }, {timestamps: true})
 
-const Trips= mongoose.model("Trips",userSchema);
+const Trip= mongoose.model("Trip",userSchema);
 
-export default Trips;
+export default Trip;
 
 /*
 TRIP SCHEMA

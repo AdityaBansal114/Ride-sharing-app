@@ -4,7 +4,7 @@ import joinTrip from "../controllers/trip/joinTrip.js";
 const router = express.Router();
 
 router.post("/create",createTrip);  
-router.post("/join",joinTrip);
+// router.post("/join",joinTrip);
 
 //TODO
 // check if the user is logged in
