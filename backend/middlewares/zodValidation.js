@@ -30,6 +30,7 @@ export const SignupValidation= (req,res,next)=>{
             next();
         }
         else{
+            console.log(valid.error);
             return res.status(400).json({message: "Check your inputs"});
         }
 
