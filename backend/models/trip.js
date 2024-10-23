@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const userSchema= new mongoose.Schema({
 
     source : {
-        type : Object,
+        type : Array,
         required : true
     },
     destination : {
-        type : Object,
+        type : Array,
         required : true
     },
     waypoints : {
