@@ -29,9 +29,9 @@ const userSchema= new mongoose.Schema({
 
     role: {
         type : String,
-        required: true,
-        enum :["traveller" , "companion" , "admin"],
-        default: "traveller"
+        // required: true,
+        enum :["user" , , "admin"],
+        default: "user"
     },
     trips: {
         type: Array,

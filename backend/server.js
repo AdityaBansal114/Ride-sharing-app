@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from "./db/connectDB.js";
 import authRoutes from "./routes/authRoutes.js"
+import tripRoutes from "./routes/tripRoutes.js"
 import cookieParser from 'cookie-parser';
 dotenv.config();
 
@@ -12,6 +13,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth",authRoutes);
+app.use("/api/trip", tripRoutes)
+
+//create trip
+
+//join trip
+
 
 app.listen(PORT, async()=>{
     connectDB();

@@ -31,7 +31,7 @@ const signup= async(req,res)=>{
             email,
             password:hashedPass,
             gender,
-            role: "traveller"
+            // role: "user"
         })
 
         await newUser.save();
