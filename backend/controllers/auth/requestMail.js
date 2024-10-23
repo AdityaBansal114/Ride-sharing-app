@@ -3,7 +3,7 @@ import User from '../../models/user.js';
 import jwt from 'jsonwebtoken';
 
 
-const reqestMail= async(req,res)=>{
+const requestMail= async(req,res)=>{
 
     try {
 
@@ -56,4 +56,4 @@ const reqestMail= async(req,res)=>{
     
 }
 
-export default reqestMail;
+export default requestMail;

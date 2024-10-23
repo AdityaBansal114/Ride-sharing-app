@@ -3,7 +3,7 @@ import {LoginValidation, requestMailValidation, resetPassValidation, SignupValid
 import login from '../controllers/auth/login.js';
 import signup from "../controllers/auth/signup.js"
 import logout from '../controllers/auth/logout.js';
-import reqestMail from '../controllers/auth/requesMail.js'
+import requestMail from '../controllers/auth/requestMail.js'
 import resetPass from "../controllers/auth/resetPass.js"
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.post("/login",LoginValidation,login);
 router.post("/signup",SignupValidation,signup);
 router.post("/logout",logout);
 
-router.post("/forgotPassword",requestMailValidation, reqestMail);
+router.post("/forgotPassword",requestMailValidation, requestMail);
 router.post("/resetPassword",resetPassValidation,resetPass)
 
 export default router;
