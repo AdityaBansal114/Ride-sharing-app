@@ -4,7 +4,7 @@ import { MenuIcon, XIcon, UserIcon, SearchIcon, PlusIcon } from 'lucide-react'; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Change this based on authentication status
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Change this based on authentication status
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
