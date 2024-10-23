@@ -15,13 +15,7 @@ app.use(cookieParser());
 app.use("/api/auth",authRoutes);
 app.use("/api/trip", tripRoutes)
 
-//create trip
-
-//join trip
-
-
 app.listen(PORT, async()=>{
     connectDB();
     console.log(`server is running on PORT : ${PORT}`);
 })
-

@@ -1,32 +1,69 @@
+import { getRoute } from "./helper/getPointsOnMap.js";
+import {checkIfPointInGeofence} from "./helper/getNearestLocation.js"
 
-const joinTrip = (req,res) => {
-    console.log("Join the trip")
-    res.status(200).json("Trip joined successfully");
 
-    // source , destination
-    const {source , destination} = req.body;
-    const tripDetails = findTrip(source,destination);
-    if(tripDetails){
-        //update trip companion
-        try {
-            tripDetails.addCompanion(currentUserId);
-            res.status(200).json({"message" : "Existing trip found", "tripDetails" : tripDetails});
 
-        } catch (error) {
-            res.status(400).json({"message" : "Internal server error"});
-            
+
+
+const joinTrip = async (req,res) => {
+
+    // FETCH ALL THE TRIPS AND CHECK ON EACH
+    // alltrips = getAllTrips() that are not started yet for that day
+
+
+    /*
+        date -> req.body.date
+        companion_source = req.body.source
+        companion_destination = req.body.destination
+    */
+
+
+    // wrap everything in try catch
+
+    const source = req.body.source; //long, lat 
+    const destination = req.body.destination;
+    const numberOfPoints = 10;
+
+    const routePoints = await getRoute(source, destination, numberOfPoints);
+
+
+    const totalDistance = routePoints.totalDistance;
+    const radius = totalDistance/numberOfPoints;
+    const targetSourceLocation = req.body.source;
+    const targetDestinationLocation = req.body.destination;
+
+
+
+    const startGeofenceLocation = checkIfPointInGeofence(routePoints.points, radius, targetSourceLocation);
+    let destinationGeofenceLocation = null;
+    if(startGeofenceLocation.inside){
+        destinationGeofenceLocation = checkIfPointInGeofence(routePoints.points, radius, targetDestinationLocation)
+        if(destinationGeofenceLocation.inside){
+            //trip permitted
+    
+            const startIndex = startGeofenceLocation.index;
+            const endIndex = destinationGeofenceLocation.index;
+            console.log("INDEX",[startIndex,endIndex]);
+    
+    
+            if(startIndex<endIndex){
+                console.log("TRIP PERMITTED")
+                /*
+                    check if there are seats availabe in the car
+                    update the companion array in the trip
+                
+                */
+            }
+    
+    
+        }else{
+            //no destination found
         }
-
     }else{
-        console.log("No Trip exist");
-        res.status(200).json({"message" : "No Trip exist for that location"})
+        //NO SOURCE EXIST
     }
 
-    // find any existing trip
-    // join as companion
-    // calculate his portion of cost
 
-    //time of car to arrive at its location, track the car
 
 }
 
