@@ -4,7 +4,7 @@ import * as turf from "@turf/turf";
 
 const mapboxClient = mapboxSdk({
   accessToken:
-    "",
+    "pk.eyJ1IjoiZXllY2xpbWF0ZSIsImEiOiJjbHZqcjVveHgwOGx2Mmltd3NrMnk1ZDEzIn0.UD4_b876WDvl1AP8Sium5g",
 });
 const directionsClient = directionsService(mapboxClient);
 
