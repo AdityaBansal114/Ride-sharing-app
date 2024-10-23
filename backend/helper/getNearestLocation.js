@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf';
 
-export function checkIfPointInGeofence(points, radius, targetPoint) {
+export  default function checkIfPointInGeofence(points, radius, targetPoint) {
 
     for (let i = 0; i < points.length; i++) {
         const point = points[i];

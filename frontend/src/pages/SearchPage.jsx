@@ -1,14 +1,41 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
+import {
+  GeoapifyGeocoderAutocomplete,
+  GeoapifyContext,
+} from '@geoapify/react-geocoder-autocomplete';
+import '@geoapify/geocoder-autocomplete/styles/minimal.css';
+
 
 const SearchPage = () => {
   const [leavingFrom, setLeavingFrom] = useState('');
   const [goingTo, setGoingTo] = useState('');
-  const [date, setDate] = useState('');
+  const [leavingFromCoords, setLeavingFromCoords] = useState([]);
+  const [goingToCoords, setGoingToCoords] = useState([]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // You can add search logic here
-    console.log('Searching for:', { leavingFrom, goingTo, date });
+    console.log('Searching for:', { leavingFromCoords, goingToCoords });
+    
+  };
+
+  const handleLeavingFromSelect = (value) => {
+    if (value) {
+      setLeavingFrom(value.properties.formatted);
+      setLeavingFromCoords([
+        value.properties.lon,
+        value.properties.lat,
+      ]);
+    }
+  };
+
+  const handleGoingToSelect = (value) => {
+    if (value) {
+      setGoingTo(value.properties.formatted);
+      setGoingToCoords([
+        value.properties.lon,
+        value.properties.lat,
+      ]);
+    }
   };
 
   return (
@@ -16,40 +43,29 @@ const SearchPage = () => {
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Search for Rides</h2>
         <form onSubmit={handleSearch} className="space-y-4">
-          <div>
-            <label className="block text-gray-700">Leaving From</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-lg mt-2"
-              placeholder="Enter departure city"
-              value={leavingFrom}
-              onChange={(e) => setLeavingFrom(e.target.value)}
-              required
-            />
-          </div>
+        <GeoapifyContext apiKey="9af0d93ce9994085935bc5b2d183aef5">
+            <div>
+              <label className="block text-gray-700">Leaving From</label>
+              <GeoapifyGeocoderAutocomplete
+                placeholder="Enter departure city"
+                type="city"
+                value={leavingFrom}
+                placeSelect={handleLeavingFromSelect}
+              />
+            </div>
 
-          <div>
-            <label className="block text-gray-700">Going To</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-lg mt-2"
-              placeholder="Enter destination city"
-              value={goingTo}
-              onChange={(e) => setGoingTo(e.target.value)}
-              required
-            />
-          </div>
+            <div>
+              <label className="block text-gray-700">Going To</label>
+              <GeoapifyGeocoderAutocomplete
+                placeholder="Enter destination city"
+                type="city"
+                value={goingTo}
+                placeSelect={handleGoingToSelect}
+              />
+            </div>
+          </GeoapifyContext>
 
-          <div>
-            <label className="block text-gray-700">Date</label>
-            <input
-              type="date"
-              className="w-full p-2 border rounded-lg mt-2"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              required
-            />
-          </div>
+
 
           <button
             type="submit"
