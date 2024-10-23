@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { login } from '../api/auth';
 import {toast} from 'react-hot-toast';
 
@@ -51,7 +51,7 @@ const Login = () => {
         </form>
         <div className="text-center mt-4">
           <p>
-            Don't have an account? <a href="/signup" className="text-blue-500">Sign up</a>
+            Don&apos;t have an account? <a href="/signup" className="text-blue-500">Sign up</a>
           </p>
         </div>
       </div>

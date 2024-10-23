@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 const SearchPage = () => {
   const [leavingFrom, setLeavingFrom] = useState('');
   const [goingTo, setGoingTo] = useState('');
-  const [date, setDate] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // You can add search logic here
-    console.log('Searching for:', { leavingFrom, goingTo, date });
+    console.log('Searching for:', { leavingFrom, goingTo });
   };
 
   return (
@@ -36,17 +34,6 @@ const SearchPage = () => {
               placeholder="Enter destination city"
               value={goingTo}
               onChange={(e) => setGoingTo(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700">Date</label>
-            <input
-              type="date"
-              className="w-full p-2 border rounded-lg mt-2"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
               required
             />
           </div>

@@ -3,8 +3,7 @@ import directionsService from "@mapbox/mapbox-sdk/services/directions.js";
 import * as turf from "@turf/turf";
 
 const mapboxClient = mapboxSdk({
-  accessToken:
-    "",
+  accessToken: process.env.MAPBOX_ACCESS_TOCKEN,
 });
 const directionsClient = directionsService(mapboxClient);
 

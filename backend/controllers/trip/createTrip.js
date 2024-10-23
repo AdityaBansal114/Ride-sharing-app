@@ -28,7 +28,7 @@ const createTrip = async(req,res) => {
             available_seats
         })
 
-        await newTrip.save();
+        await newTrip.save()
 
         res.status(200).json(newTrip)
         
