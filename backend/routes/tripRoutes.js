@@ -1,10 +1,11 @@
 import express from "express"
 import createTrip from "../controllers/trip/createTrip.js";
-import joinTrip from "../controllers/trip/joinTrip.js";
+import findTrip from "../controllers/trip/findTrips.js";
 const router = express.Router();
 
 router.post("/create",createTrip);  
-// router.post("/join",joinTrip);
+router.post("/find",findTrip);
+// router.post("/join", joinRide);
 
 //TODO
 // check if the user is logged in

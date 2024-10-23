@@ -1,36 +1,21 @@
-import { getRoute } from "./helper/getPointsOnMap.js";
-import {checkIfPointInGeofence} from "./helper/getNearestLocation.js"
+import checkIfPointInGeofence from "./getNearestLocation.js";
+import { getRoute } from "./getPointsOnMap.js";
 
 
 
+export const getValidTrips  = async (trip , source , destination) => {
 
 
-const joinTrip = async (req,res) => {
 
-    // FETCH ALL THE TRIPS AND CHECK ON EACH
-    // alltrips = getAllTrips() that are not started yet for that day
-
-
-    /*
-        date -> req.body.date
-        companion_source = req.body.source
-        companion_destination = req.body.destination
-    */
-
-
-    // wrap everything in try catch
-
-    const source = req.body.source; //long, lat 
-    const destination = req.body.destination;
     const numberOfPoints = 10;
 
-    const routePoints = await getRoute(source, destination, numberOfPoints);
+    const routePoints = await getRoute(trip.source, trip.destination, numberOfPoints);
 
 
     const totalDistance = routePoints.totalDistance;
     const radius = totalDistance/numberOfPoints;
-    const targetSourceLocation = req.body.source;
-    const targetDestinationLocation = req.body.destination;
+    const targetSourceLocation = source;
+    const targetDestinationLocation = destination;
 
 
 
@@ -48,6 +33,7 @@ const joinTrip = async (req,res) => {
     
             if(startIndex<endIndex){
                 console.log("TRIP PERMITTED")
+                return true;
                 /*
                     check if there are seats availabe in the car
                     update the companion array in the trip
@@ -57,46 +43,9 @@ const joinTrip = async (req,res) => {
     
     
         }else{
-            //no destination found
+            return false;
         }
     }else{
-        //NO SOURCE EXIST
+        return false;
     }
-
-
-
 }
-
-export default joinTrip;
-
-
-/*
-TRIP SCHEMA
-
-ride_creator
-driver_name
-cab_number
-driver_phoneNo
-
-source
-destination
-companion : []
-available_seats
-
-ride_status = [created, started, completed]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
