@@ -2,6 +2,7 @@
 import User from "../../models/user.js"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs";
+import { manager } from "../notification/manager.js";
 
 const login = async(req,res)=>{
     try {

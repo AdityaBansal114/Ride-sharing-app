@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { signUp } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { authState } from '../atom/auth.js';
+import { useAuthContext } from "../context/authContext.jsx";
+import axios from 'axios';
+
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -13,7 +13,8 @@ const Signup = () => {
   const [gender, setGender] = useState('');
   const [phoneNumber, setPhoneNumber] = useState(""); 
   const navigate = useNavigate();
-  const [authContext , setAuthContext] = useRecoilState(authState);
+  const { setAuthUser } = useAuthContext();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,18 +27,27 @@ const Signup = () => {
 
     // console.log(email , name , password , confirmPassword , phoneNumber , gender);
 
-    const res = await signUp(name, email, password, confirmPassword, gender, phoneNumber); // Added phoneNumber to signUp
-    if (res) {
-      toast.success("Account created");
-      setAuthContext({
-        isAuthenticated: true,
-        user: { email },
-      })
-      navigate('/');
+    try {
+
+      const res = await axios.post("http://localhost:8000/api/auth/signup", {
+        fullName: name,
+        password,
+        confirmPassword,
+        gender,
+        phone:phoneNumber,
+        email,
+    })
+    localStorage.setItem("app-user", JSON.stringify(res));
+    toast.success("successful");
+    setAuthUser(res);
+    navigate("/");
       
-    } else {
-      toast.error("Something went wrong");
+    } catch  {
+      toast.error("something went wrong")
     }
+
+    
+  
   };
 
   return (

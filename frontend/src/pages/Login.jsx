@@ -1,36 +1,41 @@
-import  { useState } from 'react';
-import { login } from '../api/auth';
-import {toast} from 'react-hot-toast';
-import { useRecoilState } from 'recoil';
-import { authState } from '../atom/auth.js';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuthContext } from "../context/authContext.jsx";
+
 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); 
-  const [authContext , setAuthContext] = useRecoilState(authState);
+  const navigate = useNavigate();
+  const { setAuthUser } = useAuthContext();
 
 
-  const handleSubmit =  async(e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Login details:', { email, password });
 
-    const res = await login(email,password);
-    if(res){
-      toast.success("Login successful!");
-      setAuthContext({
-        isAuthenticated: true,
-        user: { email },
+    try {
+
+      const res = await axios.post("http://localhost:8000/api/auth/login", {
+        email,
+        password
       })
-      navigate('/'); 
+      localStorage.setItem("app-user", JSON.stringify(res));
+      toast.success("successful");
+      setAuthUser(res);
+
+      navigate("/");
+
+    } catch {
+      toast.error("something went wrong")
     }
-    else{
-      toast.success(`Login Error`)
-      
-    }
-  };
+
+  }
 
   return (
     <div className="h-[89vh] flex items-center justify-center bg-gray-100 overflow-hidden">

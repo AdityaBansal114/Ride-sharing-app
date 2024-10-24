@@ -1,4 +1,4 @@
-const twilio = require('twilio');
+import twilio from "twilio/lib/rest/Twilio.js";
 
 const accountSid = process.env.SID;  
 const authToken = process.env.AUTH_TOKEN;
