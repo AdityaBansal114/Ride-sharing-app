@@ -2,15 +2,31 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MenuIcon, XIcon, UserIcon, SearchIcon, PlusIcon } from 'lucide-react';
 import { useAuthContext } from '../context/authContext';
-
+import { LogOut } from 'lucide-react';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { authUser } = useAuthContext();
+  const { authUser , setAuthUser} = useAuthContext();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const logoutHandler = async() =>{
+      try {
+        const res = await axios.post("http://localhost:8000/api/auth/logout")
+        toast.success("logged out");
+        localStorage.removeItem("app-user");
+        setAuthUser(null);
+        navigate("/");
+      } catch {
+        toast.error("Something went wrong")
+      }
+  }
 
   return (
     <nav className="bg-blue-500 text-white">
@@ -32,6 +48,9 @@ const Navbar = () => {
               <Link to="/profile" className="hover:text-white p-2  font-semibold text-black  flex items-center gap-1">
                 <UserIcon className="w-4 h-4" /> Profile
               </Link>
+              <button className='text-black font-semibold hover:text-white' onClick={logoutHandler}>  
+                  <LogOut/>
+              </button>
             </>
           ) : (
             <>
