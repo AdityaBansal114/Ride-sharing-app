@@ -51,7 +51,7 @@ const SearchPage = () => {
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Search for Rides</h2>
         <form onSubmit={handleSearch} className="space-y-4">
-        <GeoapifyContext apiKey="9af0d93ce9994085935bc5b2d183aef5">
+        <GeoapifyContext apiKey= {import.meta.env.VITE_GEO_API_KEY}>
             <div>
               <label className="block text-gray-700">Leaving From</label>
               <GeoapifyGeocoderAutocomplete

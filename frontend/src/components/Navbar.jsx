@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MenuIcon, XIcon, UserIcon, SearchIcon, PlusIcon } from 'lucide-react'; // Icons for menu and user actions
+import { MenuIcon, XIcon, UserIcon, SearchIcon, PlusIcon } from 'lucide-react';
+import { useRecoilValue} from 'recoil';
+import { authState } from '../atom/auth.js';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Change this based on authentication status
+  const isAuthenticated = useRecoilValue(authState).isAuthenticated;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

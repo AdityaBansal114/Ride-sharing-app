@@ -5,6 +5,8 @@ import {
   GeoapifyContext,
 } from '@geoapify/react-geocoder-autocomplete';
 import '@geoapify/geocoder-autocomplete/styles/minimal.css';
+import axios from 'axios';
+
 
 const PublishPage = () => {
   const [leavingFrom, setLeavingFrom] = useState('');
@@ -18,24 +20,46 @@ const PublishPage = () => {
   const [price, setPrice] = useState('');
   const [rideStatus, setRideStatus] = useState('active');
 
-  const handlePublish = (e) => {
+  // fullName , cab_number , driver_phone , driver_name , source , destination , price , available_seats
+
+  const handlePublish = async(e) => {
     e.preventDefault();
-    const rideDetails = {
-      leavingFrom,
-      goingTo,
-      leavingFromCoords,
-      goingToCoords,
-      availableSeats,
-      cabNumber,
-      driverName,
-      driverPhone,
-      price,
-      rideStatus,
-    };
-    console.log('Publishing ride:', rideDetails);
-    toast.success('Ride published successfully');
+    // const rideDetails = {
+    //   leavingFrom,
+    //   goingTo,
+    //   leavingFromCoords,
+    //   goingToCoords,
+    //   availableSeats,
+    //   cabNumber,
+    //   driverName,
+    //   driverPhone,
+    //   price,
+    //   rideStatus,
+    // };
+    // console.log('Publishing ride:', rideDetails);
+    // toast.success('Ride published successfully');
 
+    try {
 
+      const res = await axios.post("http://localhost:8000/api/trip/create" , {
+        fullName: driverName,
+        cab_number: cabNumber,
+        driver_phone: driverPhone,
+        driver_name: driverName,
+        source: leavingFromCoords,
+        destination: goingToCoords,
+        price,
+        available_seats: availableSeats
+      })
+  
+      console.log(res);
+      toast.success("Ride Published");
+      
+    } catch{
+      toast.error("something went wrong")
+    }
+
+    
 
     
   };
@@ -65,7 +89,7 @@ const PublishPage = () => {
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Publish a Ride</h2>
         <form onSubmit={handlePublish} className="space-y-4">
-          <GeoapifyContext apiKey="">
+          <GeoapifyContext apiKey={import.meta.env.VITE_GEO_API_KEY}>
             <div>
               <label className="block text-gray-700">Leaving From</label>
               <GeoapifyGeocoderAutocomplete

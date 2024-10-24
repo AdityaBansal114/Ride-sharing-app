@@ -13,7 +13,7 @@ export const SignupSchemaZod = z.object({
     email: z.string().email(),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),
-    phone : z.number(),
+    phone : z.string(),
     gender: z.enum(["male", "female", "others"]),
 })
 

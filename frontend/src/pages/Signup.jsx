@@ -1,19 +1,43 @@
-import  { useState } from 'react';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { signUp } from '../api/auth';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { authState } from '../atom/auth.js';
 
 const Signup = () => {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [gender, setGender] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(""); 
+  const navigate = useNavigate();
+  const [authContext , setAuthContext] = useRecoilState(authState);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
-    console.log('Signup details:', { name, email, password, gender });
+
+    // console.log(email , name , password , confirmPassword , phoneNumber , gender);
+
+    const res = await signUp(name, email, password, confirmPassword, gender, phoneNumber); // Added phoneNumber to signUp
+    if (res) {
+      toast.success("Account created");
+      setAuthContext({
+        isAuthenticated: true,
+        user: { email },
+      })
+      navigate('/');
+      
+    } else {
+      toast.error("Something went wrong");
+    }
   };
 
   return (
@@ -58,6 +82,16 @@ const Signup = () => {
               className="w-full p-2 border rounded-lg mt-2"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Phone Number</label>
+            <input
+              type="tel" // Set input type to "tel" for phone number
+              className="w-full p-2 border rounded-lg mt-2"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               required
             />
           </div>

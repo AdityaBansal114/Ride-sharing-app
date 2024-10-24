@@ -1,19 +1,34 @@
 import  { useState } from 'react';
 import { login } from '../api/auth';
 import {toast} from 'react-hot-toast';
+import { useRecoilState } from 'recoil';
+import { authState } from '../atom/auth.js';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
+  const [authContext , setAuthContext] = useRecoilState(authState);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit =  async(e) => {
     e.preventDefault();
     console.log('Login details:', { email, password });
-    try {
-        login();
-        toast.success("Login successful!"); 
-    } catch (error) {
-        toast.success(`Login Error:${error.message}`)
+
+    const res = await login(email,password);
+    if(res){
+      toast.success("Login successful!");
+      setAuthContext({
+        isAuthenticated: true,
+        user: { email },
+      })
+      navigate('/'); 
+    }
+    else{
+      toast.success(`Login Error`)
+      
     }
   };
 

@@ -6,7 +6,7 @@ import validateUser from "../middlewares/validateUser.js";
 
 const router = express.Router();
 
-router.post("/create",validateUser, createTrip);  
+router.post("/create",createTrip);  
 router.post("/find",findTrip);
 router.post("/join", validateUser, joinRide);
 
