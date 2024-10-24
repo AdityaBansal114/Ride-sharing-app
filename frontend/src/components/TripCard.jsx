@@ -7,6 +7,7 @@ const TripCard = ({ trip }) => {
   const navigate = useNavigate();
   const availableSeats = trip.available_seats - trip.companions.length;
   const [state,setState]=useRecoilState(tripState)
+  
 
 
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, Car, Users, MapPin, DollarSign, Users as UsersIcon } from 'lucide-react'; // Import necessary icons
 import { useRecoilValue } from 'recoil';
 import { tripState } from '../atoms/TripContext';
@@ -6,22 +6,46 @@ import toast from 'react-hot-toast';
 
 const TripPage = () => {
   const trip = useRecoilValue(tripState);
+  const [userLocation, setUserLocation] = useState([null, null]); // State to hold user location (lon, lat)
+
+  useEffect(() => {
+    // Get user location using Geolocation API
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { longitude, latitude } = position.coords;
+          setUserLocation([longitude, latitude]); // Update state with user location
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          toast.error("Could not get your location.");
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   const handleBookRide = () => {
-    toast.success('Ride booked successfully!');
-    // Implement booking logic here
+    if (userLocation[0] !== null && userLocation[1] !== null) {
+      const targetPoint = userLocation; // Use user location for booking
+      // Implement your booking logic here with targetPoint
+      toast.success(`Ride booked successfully from location: ${targetPoint}`);
+    } else {
+      toast.error("Unable to book ride, location not available.");
+    }
   };
 
   return (
     <div className="bg-blue-100 mx-auto min-h-screen p-4 flex items-center justify-center">
       {trip ? (
-        <div className="bg-white  p-10 rounded-lg shadow-md w-full max-w-2xl"> {/* Increased padding and max-width */}
+        <div className="bg-white p-10 rounded-lg shadow-md w-full max-w-2xl">
           <h3 className="font-bold text-3xl mb-4 text-center text-blue-600">{trip.driver_name}'s Ride</h3>
           <p className="text-lg text-gray-600 mb-2 text-center">
             Created by: <strong>{trip.driver_name}</strong>
           </p>
 
-          <div className="">
+          <div>
             <div className='flex flex-wrap justify-between'>
               <p className="text-lg flex items-center">
                 <MapPin className="mr-2" /> 
