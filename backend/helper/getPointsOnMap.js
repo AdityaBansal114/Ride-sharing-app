@@ -24,11 +24,11 @@ export async function getRoute(source, destination, n) {
 
     const temppoints = divideRouteIntoEqualPoints(route, n);
     const points =[];
-    points.push(destination);
-    for(let i=temppoints.length-1;i>=0;i--){
+    points.push(source);
+    for(let i=0;i<temppoints.length;i++){
       points.push(temppoints[i]);
     }
-    points.push(source);
+    points.push(destination);
 
 
     // console.log(points, totalDistance);
