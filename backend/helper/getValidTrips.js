@@ -5,17 +5,15 @@ import { getRoute } from "./getPointsOnMap.js";
 
 export const getValidTrips  = async (trip , source , destination) => {
 
-
-
     const numberOfPoints = 10;
 
-    if(trip.available_seats===trip.companions.length){
-        return false;
-    }
+    // if(trip.available_seats===trip.companions.length){
+    //     return false;
+    // }
 
-    if(trip.status != "active"){
-        return false;
-    }
+    // if(trip.status != "active"){
+    //     return false;
+    // }
 
     const routePoints = await getRoute(trip.source, trip.destination, numberOfPoints);
 
@@ -24,13 +22,12 @@ export const getValidTrips  = async (trip , source , destination) => {
     const radius = totalDistance/numberOfPoints;
     const targetSourceLocation = source;
     const targetDestinationLocation = destination;
-
-
-
-    const startGeofenceLocation = checkIfPointInGeofence(routePoints.points, radius, targetSourceLocation);
+    let flag = 0;
+    const startGeofenceLocation = checkIfPointInGeofence(routePoints.points, radius, targetSourceLocation, flag);
     let destinationGeofenceLocation = null;
     if(startGeofenceLocation.inside){
-        destinationGeofenceLocation = checkIfPointInGeofence(routePoints.points, radius, targetDestinationLocation)
+        flag = 1;
+        destinationGeofenceLocation = checkIfPointInGeofence(routePoints.points, radius, targetDestinationLocation, flag)
         if(destinationGeofenceLocation.inside){
             //trip permitted
     
@@ -39,7 +36,7 @@ export const getValidTrips  = async (trip , source , destination) => {
             console.log("INDEX",[startIndex,endIndex]);
     
     
-            if(startIndex<endIndex){
+            if(startIndex < endIndex){
                 console.log("TRIP PERMITTED")
                 return true;
                 /*

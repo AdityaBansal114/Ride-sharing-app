@@ -1,17 +1,27 @@
 
 import {getValidTrips} from "../../helper/getValidTrips.js";
+import Trip from "../../models/trip.js";
 
-const joinTrip = async (req,res) => {
+const findTrip = async (req,res) => {
 
     try {
 
-        const collection = database.collection('trip')
+        const documents = await Trip.find({});
 
-        const source = req.body.source; //long, lat 
+        const source = req.body.source;
         const destination = req.body.destination;
-        const documents = await collection.find({}).toArray();
+
     
-        const mappedDocuments = documents.filter((trip) => getValidTrips(trip , source , destination));
+
+        const mappedDocuments = [];
+
+
+        for(let i=0;i<documents.length;i++){
+            const flag = await getValidTrips(documents[i], source, destination);
+            if(flag){
+                mappedDocuments.push(documents[i]);
+            }
+        }
 
         res.status(200).json(mappedDocuments);
         
@@ -23,7 +33,7 @@ const joinTrip = async (req,res) => {
     }
 }
 
-export default joinTrip;
+export default findTrip;
 
 
 /*

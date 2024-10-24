@@ -5,10 +5,12 @@ import * as turf from "@turf/turf";
 const mapboxClient = mapboxSdk({
   accessToken: process.env.MAPBOX_ACCESS_TOCKEN,
 });
+
 const directionsClient = directionsService(mapboxClient);
 
 export async function getRoute(source, destination, n) {
   try {
+
     const response = await directionsClient
       .getDirections({
         profile: "driving",
@@ -20,7 +22,16 @@ export async function getRoute(source, destination, n) {
     const route = response.body.routes[0].geometry;
     const totalDistance = calculateTotalDistance(route);
 
-    const points = divideRouteIntoEqualPoints(route, n);
+    const temppoints = divideRouteIntoEqualPoints(route, n);
+    const points =[];
+    points.push(source);
+    for(let i=temppoints.length-1;i>=0;i--){
+      points.push(temppoints[i]);
+    }
+    points.push(destination);
+
+
+    // console.log(points, totalDistance);
 
     return { points, totalDistance };
   } catch (error) {

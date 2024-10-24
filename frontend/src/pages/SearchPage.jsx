@@ -4,6 +4,7 @@ import {
   GeoapifyContext,
 } from '@geoapify/react-geocoder-autocomplete';
 import '@geoapify/geocoder-autocomplete/styles/minimal.css';
+import axios from 'axios'
 
 
 const SearchPage = () => {
@@ -12,9 +13,16 @@ const SearchPage = () => {
   const [leavingFromCoords, setLeavingFromCoords] = useState([]);
   const [goingToCoords, setGoingToCoords] = useState([]);
 
-  const handleSearch = (e) => {
+  const handleSearch = async(e) => {
     e.preventDefault();
     console.log('Searching for:', { leavingFromCoords, goingToCoords });
+    
+    const res = await axios.post("http://localhost:8000/api/trip/find", {
+      source: leavingFromCoords,
+      destination : goingToCoords
+    })
+    
+    console.log(res);
     
   };
 
