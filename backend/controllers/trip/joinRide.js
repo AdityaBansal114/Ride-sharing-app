@@ -14,16 +14,16 @@ export const joinRide = async (req,res) => {
         //     return
         // }
 
-        // if(trip.available_seats === trip.companions.length){
-        //     res.status(500).json({message : "no seats available"});
-        //     return
-        // }
+        if(trip.available_seats === trip.companions.length){
+            res.status(400).json({message : "no seats available"});
+            return
+        }
         trip.companions.push({
             name,
             targetPoint
         });
         await trip.save();
-        console.log("successssssssss");
+        // console.log("successssssssss");
 
         res.status(200).json({message : "success"})
     

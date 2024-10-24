@@ -57,7 +57,7 @@ const SearchPage = () => {
 
   return (
     <div
-    className="min-h-screen bg-blue-100 flex items-center justify-center py-10 bg-gray-100">
+    className="min-h-screen bg-blue-100 flex items-center justify-center py-10 ">
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Search for Rides</h2>
         <form onSubmit={handleSearch} className="space-y-4">

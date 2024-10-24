@@ -7,16 +7,17 @@ import axios from 'axios'
 
 const TripPage = () => {
   const trip = useRecoilValue(tripState);
-  const [userLocation, setUserLocation] = useState([null, null]); // State to hold user location (lon, lat)
+  const [userLocation, setUserLocation] = useState([null, null]); 
   const [disableButton, setDisableButton] = useState(false);
+  const [seats, setSeats] = useState(trip.available_seats)
 
   useEffect(() => {
-    // Get user location using Geolocation API
+    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { longitude, latitude } = position.coords;
-          setUserLocation([longitude, latitude]); // Update state with user location
+          setUserLocation([longitude, latitude]); 
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -37,7 +38,7 @@ const TripPage = () => {
       }, {
         withCredentials: true,
     })
-
+      setSeats(seats - 1);
       setDisableButton(true);
 
       toast.success("Ride booked successfully");
