@@ -53,6 +53,7 @@ const PublishPage = () => {
       })
   
       console.log(res);
+      
       toast.success("Ride Published");
       
     } catch{

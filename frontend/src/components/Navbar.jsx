@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MenuIcon, XIcon, UserIcon, SearchIcon, PlusIcon } from 'lucide-react';
-import { useRecoilValue} from 'recoil';
-import { authState } from '../atom/auth.js';
+import { useAuthContext } from '../context/authContext';
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = useRecoilValue(authState).isAuthenticated;
+  const { authUser } = useAuthContext();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -21,7 +21,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex space-x-4">
-          {isAuthenticated ? (
+          {authUser ? (
             <>
               <Link to="/search" className="hover:text-white p-2  font-semibold text-black  flex items-center gap-1">
                 <SearchIcon className="w-4 h-4" /> Search
@@ -50,7 +50,7 @@ const Navbar = () => {
 
       {isOpen && (
         <div className="md:hidden bg-blue-500">
-          {isAuthenticated ? (
+          {authUser ? (
             <>
               <Link to="/search" className="flex px-4 py-2 hover:bg-blue-600 font-semibold gap-1 items-center"><SearchIcon className="w-4 h-4" />Search</Link>
               <Link to="/publish" className="flex px-4 py-2 hover:bg-blue-600 font-semibold gap-1 items-center"><PlusIcon className="w-4 h-4" />Publish Ride</Link>

@@ -7,7 +7,11 @@ export const getValidTrips  = async (trip , source , destination) => {
 
     const numberOfPoints = 20;
 
+<<<<<<< HEAD
     // if(trip.available_seats >= trip.companions.length){
+=======
+    // if(trip.available_seats===trip.companions.length){
+>>>>>>> 151149f6a6207f936cc7ecae1100b6ac1a56a49f
     //     return false;
     // }
 
