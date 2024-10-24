@@ -17,7 +17,6 @@ export const getValidTrips  = async (trip , source , destination) => {
 
     const routePoints = await getRoute(trip.source, trip.destination, numberOfPoints);
 
-
     const totalDistance = routePoints.totalDistance;
     const radius = totalDistance/numberOfPoints;
     const targetSourceLocation = source;
