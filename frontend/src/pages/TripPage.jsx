@@ -4,12 +4,14 @@ import { useRecoilValue } from 'recoil';
 import { tripState } from '../atoms/TripContext';
 import toast from 'react-hot-toast';
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 
 const TripPage = () => {
   const trip = useRecoilValue(tripState);
   const [userLocation, setUserLocation] = useState([null, null]); 
   const [disableButton, setDisableButton] = useState(false);
   const [seats, setSeats] = useState(trip.available_seats)
+  const navigate=useNavigate()
 
   useEffect(() => {
     
@@ -30,7 +32,7 @@ const TripPage = () => {
   }, []);
 
   const handleBookRide = async() => {
-    if (userLocation[0] !== null && userLocation[1] !== null) {
+    if (userLocation[0] !== null && userLocation[1] !== null ) {
       
       const res  = await axios.post("http://localhost:8000/api/trip/join", {
         tripId: trip._id,
@@ -59,7 +61,7 @@ const TripPage = () => {
           <div>
             <div className='flex flex-wrap justify-between'>
               <p className="text-lg flex items-center">
-                <MapPin className="mr-2" /> 
+                <MapPin className="mr-2" />
                 <strong>From:</strong>&nbsp; <span>{trip.source}</span>
               </p>
               <p className="text-lg flex items-center">
@@ -83,7 +85,7 @@ const TripPage = () => {
           <div className="text-black">
             <p className='text-lg'>
               <strong><Phone className="inline mr-1" /> Driver Phone:&nbsp;</strong>
-              <a href={`tel:${trip.driver_phone}`} className="text-blue-500 hover:underline">
+              <a href= {`tel:${trip.driver_phone}`} className="text-blue-500 hover:underline">
                 {trip.driver_phone}
               </a>
               <br />
@@ -93,13 +95,28 @@ const TripPage = () => {
           </div>
 
           {/* Book Ride Button */}
+          <div className='flex gap-2 frap-wrap'>
           <button
-            onClick={handleBookRide}
-            className={`mt-6 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out ${disableButton && "bg-blue-300 hover:bg-blue-300"}`}
-            disabled={disableButton}
-          >
-            {disableButton ? "Ride booked" : "Book Ride"}
+  onClick={handleBookRide}
+  className={`mt-6 w-full py-2 rounded-lg text-white transition duration-300 ease-in-out ${
+    disableButton
+      ? "bg-blue-300 cursor-not-allowed"
+      : "bg-blue-500 hover:bg-blue-600"
+  }`}
+  disabled={disableButton}
+>
+  {disableButton ? "Ride booked" : "Book Ride"}
+</button>
+
+          <button
+            onClick={() => {
+              navigate("/map")
+            }}
+            className="mt-6 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out"
+            >
+            Track Ride
           </button>
+            </div>
         </div>
       ) : (
         <p className="text-gray-600 text-center">No trip details available</p>
