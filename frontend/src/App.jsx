@@ -8,6 +8,7 @@ import PublishPage from './pages/PublishPage';
 import Map from './components/Map';
 import { Navigate } from 'react-router-dom';
 import {useAuthContext} from './context/authContext'
+import TripPage from './pages/TripPage';
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/signup" element={authUser? <LandingPage/> : <Signup />} />
           <Route path="/search" element={authUser? <SearchPage /> : <Login/>} /> 
           <Route path="/publish" element={authUser? <PublishPage/> : <Login/>} />
+          <Route path="/trip/:tripId" element={authUser?<TripPage  />: <Login/>} />
           <Route path="/map" element={<Map />} />
         </Routes>
       </main>
