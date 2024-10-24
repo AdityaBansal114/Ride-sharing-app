@@ -50,7 +50,9 @@ const PublishPage = () => {
         destination: goingToCoords,
         price,
         available_seats: availableSeats
-      })
+      }, {
+        withCredentials: true,
+    })
   
       console.log(res);
       

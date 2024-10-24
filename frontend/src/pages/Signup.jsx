@@ -36,7 +36,9 @@ const Signup = () => {
         gender,
         phone:phoneNumber,
         email,
-    })
+    }, {
+      withCredentials: true,
+  })
     localStorage.setItem("app-user", JSON.stringify(res));
     toast.success("successful");
     setAuthUser(res);

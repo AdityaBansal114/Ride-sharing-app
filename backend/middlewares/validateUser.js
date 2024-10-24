@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js';
 
-const validateUser= async(req,res,next)=>{
+const validateUser = async(req,res,next)=>{
     try {
-        const token= req.cookies.jwt;
+        const token = req.cookies.jwt;
         if(!token){
             return res.status(401).json({error: "You are not logged in"});
         }
@@ -28,7 +28,7 @@ const validateUser= async(req,res,next)=>{
         
         
     } catch (error) {
-        onsole.log("error in validate User middleware ", error.message);
+        console.log("error in validate User middleware ", error.message);
         res.status(500).json({error:"Internal Server Error"});
     }
 }

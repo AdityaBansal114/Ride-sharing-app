@@ -23,6 +23,8 @@ const SearchPage = () => {
     const res = await axios.post("http://localhost:8000/api/trip/find", {
       source: leavingFromCoords,
       destination : goingToCoords
+    },{
+      withCredentials: true
     })
     console.log(res);
     setTrips(res.data);

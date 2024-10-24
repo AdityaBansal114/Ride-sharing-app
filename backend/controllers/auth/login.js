@@ -22,13 +22,17 @@ const login = async(req,res)=>{
         expiresIn: '15d'
     });
 
+    console.log("heyyyy")
+
 
     res.cookie("jwt",jwttoken, {
         maxAge: 15*24*60*60*1000,
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV!=="development"
+        sameSite: "None",
+        secure: false
     })
+
+
 
     res.status(200).json({
         userId: user._id,
@@ -36,6 +40,7 @@ const login = async(req,res)=>{
         email,
         role: user.role,
     })
+
 
         
     } catch (error) {

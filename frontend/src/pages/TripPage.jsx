@@ -3,10 +3,12 @@ import { Phone, Car, Users, MapPin, DollarSign, Users as UsersIcon } from 'lucid
 import { useRecoilValue } from 'recoil';
 import { tripState } from '../atoms/TripContext';
 import toast from 'react-hot-toast';
+import axios from 'axios'
 
 const TripPage = () => {
   const trip = useRecoilValue(tripState);
   const [userLocation, setUserLocation] = useState([null, null]); // State to hold user location (lon, lat)
+  const [disableButton, setDisableButton] = useState(false);
 
   useEffect(() => {
     // Get user location using Geolocation API
@@ -26,11 +28,19 @@ const TripPage = () => {
     }
   }, []);
 
-  const handleBookRide = () => {
+  const handleBookRide = async() => {
     if (userLocation[0] !== null && userLocation[1] !== null) {
-      const targetPoint = userLocation; // Use user location for booking
-      // Implement your booking logic here with targetPoint
-      toast.success(`Ride booked successfully from location: ${targetPoint}`);
+      
+      const res  = await axios.post("http://localhost:8000/api/trip/join", {
+        tripId: trip._id,
+        targetPoint: userLocation,
+      }, {
+        withCredentials: true,
+    })
+
+      setDisableButton(true);
+
+      toast.success("Ride booked successfully");
     } else {
       toast.error("Unable to book ride, location not available.");
     }
@@ -59,7 +69,7 @@ const TripPage = () => {
             <div className="flex flex-wrap justify-between text-lg mt-2">
               <p className="flex items-center">
                 <UsersIcon className="mr-2" />
-                <strong>Available Seats:&nbsp;</strong> {trip.available_seats}
+                <strong>Available Seats:&nbsp;</strong> {trip.available_seats-trip.companions.length}
               </p>
               <p className="flex items-center">
                 <DollarSign className="mr-2" />
@@ -77,16 +87,17 @@ const TripPage = () => {
               </a>
               <br />
               <strong><Car className="inline mr-1" /> Cab Number:&nbsp;</strong> {trip.cab_number} <br />
-              <strong><Users className="inline mr-1" /> Companions:&nbsp;</strong> {trip.companions.length > 0 ? trip.companions.join(', ') : 'None'}
+              <strong><Users className="inline mr-1" /> Companions:&nbsp;</strong> {trip.companions.length > 0 ? trip.companions.map(companion => companion.name).join(', ') : 'None'}
             </p>
           </div>
 
           {/* Book Ride Button */}
           <button
             onClick={handleBookRide}
-            className="mt-6 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out"
+            className={`mt-6 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out ${disableButton && "bg-blue-300 hover:bg-blue-300"}`}
+            disabled={disableButton}
           >
-            Book Ride
+            {disableButton ? "Ride booked" : "Book Ride"}
           </button>
         </div>
       ) : (

@@ -45,8 +45,8 @@ const signup= async(req,res)=>{
         res.cookie("jwt",jwttoken, {
             maxAge: 15*24*60*60*1000,
             httpOnly: true,
-            sameSite: "strict",
-            secure: process.env.NODE_ENV!=="development"
+            sameSite: "None",
+            secure: false
         })
 
         res.status(200).json({

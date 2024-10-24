@@ -18,7 +18,9 @@ const Navbar = () => {
 
   const logoutHandler = async() =>{
       try {
-        const res = await axios.post("http://localhost:8000/api/auth/logout")
+        const res = await axios.post("http://localhost:8000/api/auth/logout",{} ,{
+          withCredentials: true,
+      })
         toast.success("logged out");
         localStorage.removeItem("app-user");
         setAuthUser(null);

@@ -5,25 +5,25 @@ export const joinRide = async (req,res) => {
 
         const {tripId , targetPoint} = req.body;
 
-        const userId = req.user._id;
-        
-
-        const trip = Trip.findById(tripId);
-        if(trip.status != "active"){
-            res.status(400).json({message : "ride is unactive"});
-        }
-
-        if(trip.available_seats===trip.companions.length){
-            res.status(500).json({message : "no seats available"});
-        }
+        const name = req.user.fullName;
 
 
+        const trip = await Trip.findById(tripId);
+        // if(trip.status !== "active"){
+        //     res.status(400).json({message : "ride is unactive"});
+        //     return
+        // }
 
+        // if(trip.available_seats === trip.companions.length){
+        //     res.status(500).json({message : "no seats available"});
+        //     return
+        // }
         trip.companions.push({
-            userId,
+            name,
             targetPoint
         });
         await trip.save();
+        console.log("successssssssss");
 
         res.status(200).json({message : "success"})
     
